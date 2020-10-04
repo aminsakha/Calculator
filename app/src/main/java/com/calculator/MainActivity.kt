@@ -22,8 +22,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //  result_id.text = "0"
 
+        result_id.text = result_id.hint
         initializeButtons()
     }
 
@@ -34,9 +34,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun appendToDigitOnScreen(digit: String) {
-
+        result_id.text = tmpScreenString
+        tmpScreenString = ""
         digit_on_screen.append(digit)
-        result_id.text = digit_on_screen.toString()
+        result_id.append(digit_on_screen.toString())
     }
 
     private fun numericalButtons() {
@@ -63,19 +64,17 @@ class MainActivity : AppCompatActivity() {
         dot_btn.setOnClickListener(listener)
     }
 
-    private fun selectOperation(c: Char) {
-        operation = c
-        if (digit_on_screen.isNotEmpty() && digit_on_screen.toString().toDouble() != floor(
-                digit_on_screen.toString().toDouble()
-            )
-        )
-            leftHandSide = digit_on_screen.toString().toDouble()
-        else
-            leftHandSide = digit_on_screen.toString().toLong().toDouble()
+    private var tmpScreenString: String = ""
 
-        result_id.append(c.toString())
-        digit_on_screen.clear()
-    }
+    private fun selectOperation(c: Char) {
+            operation = c
+            println("left : $leftHandSide")
+            println("res : ${result_id.text}")
+            leftHandSide = result_id.text.toString().toDouble()
+            result_id.append(c.toString())
+            tmpScreenString = result_id.text.toString()
+            digit_on_screen.clear()
+        }
 
     private fun operationalButtons() {
 
@@ -88,11 +87,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         divide_btn.setOnClickListener {
-            selectOperation('/')
+            selectOperation('÷')
         }
 
         multipy_btn.setOnClickListener {
-            selectOperation('*')
+            selectOperation('×')
         }
 
     }
@@ -124,7 +123,6 @@ class MainActivity : AppCompatActivity() {
             rightHandSide = digit_on_screen.toString().toDouble()
         digit_on_screen.clear()
 
-
         when (operation) {
 
             '+' -> {
@@ -136,24 +134,29 @@ class MainActivity : AppCompatActivity() {
                 }
                 result_id.text = sum.toString()
 
-                // digit_on_screen.append(sum)
             }
             '-' -> {
-                val subtract = subtract(leftHandSide, rightHandSide)
+                val subtract: Number = if (checkIfWeHaveInt()) {
+                    subtractInt(leftHandSide.toLong(), rightHandSide.toLong())
+                } else {
+                    subtract(leftHandSide, rightHandSide)
+                }
                 result_id.text = subtract.toString()
                 // digit_on_screen.append(subtract)
             }
-            '*' -> {
-                val multiply = multiply(leftHandSide, rightHandSide)
+            '×' -> {
+                val multiply: Number = if (checkIfWeHaveInt()) {
+                    multiplyInt(leftHandSide.toLong(), rightHandSide.toLong())
+                } else {
+                    multiply(leftHandSide, rightHandSide)
+                }
                 result_id.text = multiply.toString()
                 // digit_on_screen.append(multiply)
             }
-            '/' -> {
-                val divide = divide(leftHandSide, rightHandSide)
-                result_id.text = divide.toString()
+            '÷' -> {
+                result_id.text = divide(leftHandSide, rightHandSide).toString()
                 // digit_on_screen.append(divide)
             }
-
         }
         operation = ' '
 
@@ -162,7 +165,6 @@ class MainActivity : AppCompatActivity() {
     private fun clearDigit() {
 
         val length = digit_on_screen.length
-
         digit_on_screen.deleteCharAt(length - 1)
         result_id.text = digit_on_screen.toString()
     }

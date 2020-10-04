@@ -48,7 +48,9 @@
                 android:layout_weight="1"
                 android:background="@drawable/buttons"
                 android:text="CE"
-                android:textColor="#0E0E0E" />
+                android:textColor="#0E0E0E"
+                android:textSize="21sp"
+                android:textStyle="normal" />
 
             <Button
                 android:id="@+id/clear_btn"
@@ -58,7 +60,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/buttons"
                 android:text="C"
-                android:textColor="#0E0E0E" />
+                android:textColor="#0E0E0E"
+                android:textSize="21sp" />
 
 
             <Button
@@ -68,8 +71,9 @@
                 android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/buttons"
-                android:text="/"
-                android:textColor="#0E0E0E" />
+                android:text="÷"
+                android:textColor="#0E0E0E"
+                android:textSize="24sp" />
 
         </LinearLayout>
 
@@ -88,7 +92,8 @@
                 android:background="@drawable/buttons"
                 android:text="9"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#0E0E0E" />
+                android:textColor="#0E0E0E"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/eight_btn"
@@ -99,7 +104,8 @@
                 android:background="@drawable/buttons"
                 android:text="8"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#0E0E0E" />
+                android:textColor="#0E0E0E"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/seven_btn"
@@ -110,7 +116,8 @@
                 android:background="@drawable/buttons"
                 android:text="7"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#0E0E0E" />
+                android:textColor="#0E0E0E"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/multipy_btn"
@@ -119,9 +126,10 @@
                 android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/buttons"
-                android:text="X"
+                android:text="×"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#0E0E0E" />
+                android:textColor="#0E0E0E"
+                android:textSize="24sp" />
 
         </LinearLayout>
 
@@ -140,7 +148,8 @@
                 android:background="@drawable/buttons"
                 android:text="6"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#0E0E0E" />
+                android:textColor="#0E0E0E"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/five_btn"
@@ -151,7 +160,8 @@
                 android:background="@drawable/buttons"
                 android:text="5"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#0E0E0E" />
+                android:textColor="#0E0E0E"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/four_btn"
@@ -162,7 +172,8 @@
                 android:background="@drawable/buttons"
                 android:text="4"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#0E0E0E" />
+                android:textColor="#0E0E0E"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/addition_btn"
@@ -173,7 +184,8 @@
                 android:background="@drawable/buttons"
                 android:text="+"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#0E0E0E" />
+                android:textColor="#0E0E0E"
+                android:textSize="24sp" />
 
         </LinearLayout>
 
@@ -192,7 +204,7 @@
                 android:background="@drawable/buttons"
                 android:text="3"
                 android:textColor="#0E0E0E"
-                android:textSize="18sp" />
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/two_btn"
@@ -203,7 +215,8 @@
                 android:background="@drawable/buttons"
                 android:text="2"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#0E0E0E" />
+                android:textColor="#0E0E0E"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/one_btn"
@@ -214,7 +227,8 @@
                 android:background="@drawable/buttons"
                 android:text="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#0E0E0E" />
+                android:textColor="#0E0E0E"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/subtract_btn"
@@ -245,7 +259,8 @@
                 android:background="@drawable/buttons"
                 android:text="0"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#0E0E0E" />
+                android:textColor="#0E0E0E"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/dot_btn"
@@ -268,9 +283,11 @@
                 android:background="@drawable/buttons"
                 android:text="="
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#0E0E0E" />
+                android:textColor="#0E0E0E"
+                android:textSize="24sp" />
 
         </LinearLayout>
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
