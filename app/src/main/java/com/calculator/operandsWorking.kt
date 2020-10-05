@@ -27,14 +27,6 @@ fun divide(left_hand_side: Double, right_hand_side: Double): Double {
         0.0
     }
 }
-fun divideInt(left_hand_side: Long, right_hand_side: Long): Long {
-
-    return try {
-        left_hand_side / right_hand_side
-    } catch (e: ArithmeticException) {
-        0
-    }
-}
 
 fun multiply(left_hand_side: Double, right_hand_side: Double): Double {
     return left_hand_side * right_hand_side

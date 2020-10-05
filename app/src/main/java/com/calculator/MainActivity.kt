@@ -3,18 +3,23 @@ package com.calculator
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.microsoft.appcenter.AppCenter
+import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.math.floor
 
 class MainActivity : AppCompatActivity() {
 
-    var digit_on_screen = StringBuilder()
-    var operation: Char = ' '
-    var leftHandSide: Double = 0.0
-    var rightHandSide: Double = 0.0
+    private var digitOnScreen = StringBuilder()
+    private var operation: Char = ' '
+    private var leftHandSide: Double = 0.0
+    private var rightHandSide: Double = 0.0
+    private var onOpFinished: Boolean = false
 
-    private val listener = View.OnClickListener { view ->
+     fun test(view: View){
         val btn = view as Button
         appendToDigitOnScreen(btn.text.toString())
     }
@@ -22,6 +27,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        AppCenter.start(
+            application, "7acab5be-2cf9-487d-8d18-e2e73eaa946a",
+            Analytics::class.java, Crashes::class.java
+        )
 
         result_id.text = result_id.hint
         initializeButtons()
@@ -30,54 +39,31 @@ class MainActivity : AppCompatActivity() {
     private fun initializeButtons() {
         functionalButtons()
         operationalButtons()
-        numericalButtons()
     }
 
     private fun appendToDigitOnScreen(digit: String) {
         result_id.text = tmpScreenString
         tmpScreenString = ""
-        digit_on_screen.append(digit)
-        result_id.append(digit_on_screen.toString())
+        digitOnScreen.append(digit)
+        result_id.append(digitOnScreen.toString())
     }
 
-    private fun numericalButtons() {
-        one_btn.setOnClickListener(listener)
-
-        two_btn.setOnClickListener(listener)
-
-        three_btn.setOnClickListener(listener)
-
-        four_btn.setOnClickListener(listener)
-
-        five_btn.setOnClickListener(listener)
-
-        six_btn.setOnClickListener(listener)
-
-        seven_btn.setOnClickListener(listener)
-
-        eight_btn.setOnClickListener(listener)
-
-        nine_btn.setOnClickListener(listener)
-
-        zero_btn.setOnClickListener(listener)
-
-        dot_btn.setOnClickListener(listener)
-    }
 
     private var tmpScreenString: String = ""
 
     private fun selectOperation(c: Char) {
+        if (!onOpFinished) {
             operation = c
-            println("left : $leftHandSide")
-            println("res : ${result_id.text}")
             leftHandSide = result_id.text.toString().toDouble()
             result_id.append(c.toString())
             tmpScreenString = result_id.text.toString()
-            digit_on_screen.clear()
-        }
+            digitOnScreen.clear()
+            onOpFinished = true
+        } else
+            Toast.makeText(this, "please click on { = }", Toast.LENGTH_SHORT).show()
+    }
 
     private fun operationalButtons() {
-
         addition_btn.setOnClickListener {
             selectOperation('+')
         }
@@ -93,19 +79,19 @@ class MainActivity : AppCompatActivity() {
         multipy_btn.setOnClickListener {
             selectOperation('×')
         }
-
     }
 
     private fun functionalButtons() {
 
         clear_everything_btn.setOnClickListener {
-            digit_on_screen.clear()
+            digitOnScreen.clear()
             result_id.text = result_id.hint
+            onOpFinished = false
         }
 
         clear_btn.setOnClickListener {
 
-            if (digit_on_screen.length <= 0) {
+            if (digitOnScreen.length <= 0) {
                 return@setOnClickListener
             } else {
                 clearDigit()
@@ -115,22 +101,21 @@ class MainActivity : AppCompatActivity() {
         equal_btn.setOnClickListener {
             performMathOperation()
         }
-
     }
 
     private fun performMathOperation() {
-        if (digit_on_screen.isNotEmpty())
-            rightHandSide = digit_on_screen.toString().toDouble()
-        digit_on_screen.clear()
+        onOpFinished = false
+        if (digitOnScreen.isNotEmpty())
+            rightHandSide = digitOnScreen.toString().toDouble()
+        digitOnScreen.clear()
 
         when (operation) {
 
             '+' -> {
-                val sum: Number
-                if (checkIfWeHaveInt()) {
-                    sum = addInt(leftHandSide.toLong(), rightHandSide.toLong())
+                val sum: Number = if (checkIfWeHaveInt()) {
+                    addInt(leftHandSide.toLong(), rightHandSide.toLong())
                 } else {
-                    sum = add(leftHandSide, rightHandSide)
+                    add(leftHandSide, rightHandSide)
                 }
                 result_id.text = sum.toString()
 
@@ -142,7 +127,6 @@ class MainActivity : AppCompatActivity() {
                     subtract(leftHandSide, rightHandSide)
                 }
                 result_id.text = subtract.toString()
-                // digit_on_screen.append(subtract)
             }
             '×' -> {
                 val multiply: Number = if (checkIfWeHaveInt()) {
@@ -151,11 +135,9 @@ class MainActivity : AppCompatActivity() {
                     multiply(leftHandSide, rightHandSide)
                 }
                 result_id.text = multiply.toString()
-                // digit_on_screen.append(multiply)
             }
             '÷' -> {
                 result_id.text = divide(leftHandSide, rightHandSide).toString()
-                // digit_on_screen.append(divide)
             }
         }
         operation = ' '
@@ -164,9 +146,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun clearDigit() {
 
-        val length = digit_on_screen.length
-        digit_on_screen.deleteCharAt(length - 1)
-        result_id.text = digit_on_screen.toString()
+        val length = digitOnScreen.length
+        digitOnScreen.deleteCharAt(length - 1)
+        result_id.text = digitOnScreen.toString()
     }
 
     private fun checkIfWeHaveInt(): Boolean {
