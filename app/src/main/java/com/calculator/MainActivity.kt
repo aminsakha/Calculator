@@ -17,9 +17,9 @@ class MainActivity : AppCompatActivity() {
     private var operation: Char = ' '
     private var leftHandSide: Double = 0.0
     private var rightHandSide: Double = 0.0
-    private var onOpFinished: Boolean = false
+    private var oneOpFinished: Boolean = false
 
-     fun test(view: View){
+    fun test(view: View) {
         val btn = view as Button
         appendToDigitOnScreen(btn.text.toString())
     }
@@ -52,13 +52,13 @@ class MainActivity : AppCompatActivity() {
     private var tmpScreenString: String = ""
 
     private fun selectOperation(c: Char) {
-        if (!onOpFinished) {
+        if (!oneOpFinished) {
             operation = c
             leftHandSide = result_id.text.toString().toDouble()
             result_id.append(c.toString())
             tmpScreenString = result_id.text.toString()
             digitOnScreen.clear()
-            onOpFinished = true
+            oneOpFinished = true
         } else
             Toast.makeText(this, "please click on { = }", Toast.LENGTH_SHORT).show()
     }
@@ -86,16 +86,11 @@ class MainActivity : AppCompatActivity() {
         clear_everything_btn.setOnClickListener {
             digitOnScreen.clear()
             result_id.text = result_id.hint
-            onOpFinished = false
+            oneOpFinished = false
         }
 
         clear_btn.setOnClickListener {
-
-            if (digitOnScreen.length <= 0) {
-                return@setOnClickListener
-            } else {
-                clearDigit()
-            }
+            clearDigit()
         }
 
         equal_btn.setOnClickListener {
@@ -104,7 +99,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun performMathOperation() {
-        onOpFinished = false
+        oneOpFinished = false
         if (digitOnScreen.isNotEmpty())
             rightHandSide = digitOnScreen.toString().toDouble()
         digitOnScreen.clear()
@@ -145,10 +140,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun clearDigit() {
-
-        val length = digitOnScreen.length
-        digitOnScreen.deleteCharAt(length - 1)
-        result_id.text = digitOnScreen.toString()
+        var tmp: String = result_id.text.substring(result_id.text.indexOf(operation) + 1)
+        if (tmp.isEmpty()) {
+            operation = ' '
+            oneOpFinished = false
+            result_id.text = result_id.text.toString().substring(0, result_id.text.length - 1)
+        } else
+            result_id.text = result_id.text.substring(0, result_id.text.length - 1)
     }
 
     private fun checkIfWeHaveInt(): Boolean {
