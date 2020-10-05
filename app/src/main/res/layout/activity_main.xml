@@ -29,7 +29,9 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="45dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/result_id"
         app:layout_constraintStart_toStartOf="@id/result_id"
         app:layout_constraintTop_toBottomOf="@id/result_id">
@@ -233,11 +235,11 @@
                 android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/buttons"
+                android:onClick="test"
                 android:text="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#0E0E0E"
-                android:textSize="24sp"
-                android:onClick="test" />
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/subtract_btn"

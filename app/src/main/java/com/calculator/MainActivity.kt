@@ -13,11 +13,11 @@ import kotlin.math.floor
 
 class MainActivity : AppCompatActivity() {
 
-    private var digitOnScreen = StringBuilder()
     private var operation: Char = ' '
     private var leftHandSide: Double = 0.0
     private var rightHandSide: Double = 0.0
     private var oneOpFinished: Boolean = false
+    private var tmpScreenString: String = ""
 
     fun test(view: View) {
         val btn = view as Button
@@ -32,24 +32,17 @@ class MainActivity : AppCompatActivity() {
             Analytics::class.java, Crashes::class.java
         )
 
-        result_id.text = result_id.hint
-        initializeButtons()
-    }
-
-    private fun initializeButtons() {
         functionalButtons()
         operationalButtons()
     }
 
+
     private fun appendToDigitOnScreen(digit: String) {
-        result_id.text = tmpScreenString
+        if (tmpScreenString != "")
+            result_id.text = tmpScreenString
         tmpScreenString = ""
-        digitOnScreen.append(digit)
-        result_id.append(digitOnScreen.toString())
+        result_id.append(digit)
     }
-
-
-    private var tmpScreenString: String = ""
 
     private fun selectOperation(c: Char) {
         if (!oneOpFinished) {
@@ -57,7 +50,6 @@ class MainActivity : AppCompatActivity() {
             leftHandSide = result_id.text.toString().toDouble()
             result_id.append(c.toString())
             tmpScreenString = result_id.text.toString()
-            digitOnScreen.clear()
             oneOpFinished = true
         } else
             Toast.makeText(this, "please click on { = }", Toast.LENGTH_SHORT).show()
@@ -84,8 +76,7 @@ class MainActivity : AppCompatActivity() {
     private fun functionalButtons() {
 
         clear_everything_btn.setOnClickListener {
-            digitOnScreen.clear()
-            result_id.text = result_id.hint
+            result_id.text = ""
             oneOpFinished = false
         }
 
@@ -100,47 +91,50 @@ class MainActivity : AppCompatActivity() {
 
     private fun performMathOperation() {
         oneOpFinished = false
-        if (digitOnScreen.isNotEmpty())
-            rightHandSide = digitOnScreen.toString().toDouble()
-        digitOnScreen.clear()
+        if (result_id.text.isNotEmpty())
+            rightHandSide =
+                result_id.text.substring(result_id.text.indexOf(operation) + 1).toDouble()
+        if (rightHandSide.toString().length <= 8 && leftHandSide.toString().length <= 8) {
 
-        when (operation) {
+            when (operation) {
 
-            '+' -> {
-                val sum: Number = if (checkIfWeHaveInt()) {
-                    addInt(leftHandSide.toLong(), rightHandSide.toLong())
-                } else {
-                    add(leftHandSide, rightHandSide)
-                }
-                result_id.text = sum.toString()
+                '+' -> {
+                    val sum: Number = if (checkIfWeHaveInt()) {
+                        addInt(leftHandSide.toLong(), rightHandSide.toLong())
+                    } else {
+                        add(leftHandSide, rightHandSide)
+                    }
+                    result_id.text = sum.toString()
 
-            }
-            '-' -> {
-                val subtract: Number = if (checkIfWeHaveInt()) {
-                    subtractInt(leftHandSide.toLong(), rightHandSide.toLong())
-                } else {
-                    subtract(leftHandSide, rightHandSide)
                 }
-                result_id.text = subtract.toString()
-            }
-            '×' -> {
-                val multiply: Number = if (checkIfWeHaveInt()) {
-                    multiplyInt(leftHandSide.toLong(), rightHandSide.toLong())
-                } else {
-                    multiply(leftHandSide, rightHandSide)
+                '-' -> {
+                    val subtract: Number = if (checkIfWeHaveInt()) {
+                        subtractInt(leftHandSide.toLong(), rightHandSide.toLong())
+                    } else {
+                        subtract(leftHandSide, rightHandSide)
+                    }
+                    result_id.text = subtract.toString()
                 }
-                result_id.text = multiply.toString()
+                '×' -> {
+                    val multiply: Number = if (checkIfWeHaveInt()) {
+                        multiplyInt(leftHandSide.toLong(), rightHandSide.toLong())
+                    } else {
+                        multiply(leftHandSide, rightHandSide)
+                    }
+                    result_id.text = multiply.toString()
+                }
+                '÷' -> {
+                    result_id.text = divide(leftHandSide, rightHandSide).toString()
+                }
             }
-            '÷' -> {
-                result_id.text = divide(leftHandSide, rightHandSide).toString()
-            }
-        }
-        operation = ' '
+            operation = ' '
+        } else
+            Toast.makeText(this, "only up to 8 digits", Toast.LENGTH_SHORT).show()
 
     }
 
     private fun clearDigit() {
-        var tmp: String = result_id.text.substring(result_id.text.indexOf(operation) + 1)
+        val tmp: String = result_id.text.substring(result_id.text.indexOf(operation) + 1)
         if (tmp.isEmpty()) {
             operation = ' '
             oneOpFinished = false
