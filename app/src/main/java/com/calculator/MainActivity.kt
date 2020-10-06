@@ -105,7 +105,6 @@ class MainActivity : AppCompatActivity() {
                         add(leftHandSide, rightHandSide)
                     }
                     result_id.text = sum.toString()
-
                 }
                 '-' -> {
                     val subtract: Number = if (checkIfWeHaveInt()) {
