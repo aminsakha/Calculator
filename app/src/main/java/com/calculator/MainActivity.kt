@@ -133,13 +133,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun clearDigit() {
-        val tmp: String = result_id.text.substring(result_id.text.indexOf(operation) + 1)
-        if (tmp.isEmpty()) {
-            operation = ' '
-            oneOpFinished = false
-            result_id.text = result_id.text.toString().substring(0, result_id.text.length - 1)
-        } else
-            result_id.text = result_id.text.substring(0, result_id.text.length - 1)
+        if (result_id.text.isNotEmpty()) {
+            val tmp: String = result_id.text.substring(result_id.text.indexOf(operation) + 1)
+            if (tmp.isEmpty()) {
+                operation = ' '
+                oneOpFinished = false
+                result_id.text = result_id.text.toString().substring(0, result_id.text.length - 1)
+            } else
+                result_id.text = result_id.text.substring(0, result_id.text.length - 1)
+        }
     }
 
     private fun checkIfWeHaveInt(): Boolean {
